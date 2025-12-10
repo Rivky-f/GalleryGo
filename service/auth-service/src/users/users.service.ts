@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createUserDto: CreateUserDto) {
     const { email, password, role, name } = createUserDto;
@@ -26,6 +26,10 @@ export class UsersService {
     if (!user) throw new NotFoundException('User not found');
     const { password, ...result } = user;
     return result;
+  }
+
+  async findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
   async findAll() {
