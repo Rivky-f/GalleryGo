@@ -7,19 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// *
+///  * User - זהות בסיסית במערכת
+///  * מייצג אדם אחד עם פרטי התחברות
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  email     String   @unique
-  password  String
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  firstName     String
+  lastName      String
+  phone         String
+  isAdmin       Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  clients       Client[]
+  photographers Photographer[]
 
+  @@map("users")
 }
 
-enum Role {
-  CLIENT
-  PHOTOGRAPHER
-  ADMIN
+/// *
+///  * Photographer - עסק צילום
+///  * User יכול להיות צלם (יש לו סטודיו)
+model Photographer {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  studioName String?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  clients    Client[]
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("photographers")
+}
+
+/// *
+///  * Client - לקוח של צלם ספציפי
+///  * User יכול להיות לקוח של מספר צלמים
+model Client {
+  id              Int          @id @default(autoincrement())
+  photographerId  Int
+  userId          Int?
+  clientEmail     String
+  clientFirstName String?
+  clientLastName  String?
+  status          Int          @default(1)
+  inviteToken     String?      @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  photographer    Photographer @relation(fields: [photographerId], references: [id], onDelete: Cascade)
+  user            User?        @relation(fields: [userId], references: [id])
+
+  @@unique([photographerId, clientEmail])
+  @@map("clients")
 }
