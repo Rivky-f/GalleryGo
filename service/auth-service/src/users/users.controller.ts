@@ -17,25 +17,25 @@ export class UsersController {
     return result;
   }
 
-  @Get()
-  async findAll() {
-    return this.usersService.findAll();
-  }
+  // @Get()
+  // async findAll() {
+  //   return this.usersService.findAll();
+  // }
 
-  @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.usersService.findOne(id);
-  }
+  // @Get(':id')
+  // async findOne(@Param('id') id: number) {
+  //   return this.usersService.findOne(id);
+  // }
 
-  @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    const user = await this.usersService.update(id, updateUserDto);
-    const { password, ...result } = user;
-    return result;
-  }
+  // @Patch(':id')
+  // async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  //   const user = await this.usersService.update(id, updateUserDto);
+  //   const { password, ...result } = user;
+  //   return result;
+  // }
 
-  @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.usersService.remove(id);
-  }
+  // @Delete(':id')
+  // async remove(@Param('id') id: number) {
+  //   return this.usersService.remove(id);
+  // }
 }
