@@ -21,13 +21,11 @@ export class PhotographersController {
 
   @Post('checkEmailForRegister')
   @ApiBody({ type: CheckEmailDto })
-  @ApiResponse({ status: 200, description: 'OK' })
-  @ApiResponse({ status: 400, description: 'האיימל כבר קיים במערכת' })
-  async checkEmailForRegister(
-    @Body() body: CheckEmailDto,
-  ) {
-    return await this.usersService.checkEmailStatusToRegister(body.email);
+  @ApiResponse({ status: 200 })
+  async checkEmailForRegister(@Body() body: CheckEmailDto) {
+    return this.usersService.checkEmailStatusToRegister(body.email);
   }
+  
 
   // @Post('register')
   // @ApiBody({ type: CreateUserDto })
