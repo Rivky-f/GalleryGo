@@ -9,11 +9,6 @@ import { EMAIL_STATUS } from '../constants/status.constants';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) { }
 
-  /**
-   * בדיקת סטטוס אימייל במערכת
-   * @param email - כתובת האימייל לבדיקה
-   * @returns EmailStatus - סטטוס האימייל
-   */
   async checkEmailStatusToRegister(email: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },
@@ -37,6 +32,8 @@ export class UsersService {
     if (isClient) {
       return EMAIL_STATUS.CLIENT;
     }
+
+    return EMAIL_STATUS.NOT_REGISTERED;
   }
 
   async create(createUserDto: CreateUserDto) {
